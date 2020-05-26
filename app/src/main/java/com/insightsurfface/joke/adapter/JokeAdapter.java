@@ -54,7 +54,7 @@ public class JokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemViewType(int position) {
         if (null == list || list.size() == 0) {
             return TYPE_END;
-        } else if (position == list.size()) {
+        } else if (position == 400) {
             return TYPE_END;
         } else {
             return TYPE_NORMAL;
@@ -66,8 +66,10 @@ public class JokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemCount() {
         if (null == list || list.size() == 0) {
             return 1;
-        } else {
+        } else if (list.size() == 400) {
             return list.size() + 1;
+        } else {
+            return list.size();
         }
     }
 
@@ -93,7 +95,7 @@ public class JokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public ListEndViewHolder(View view) {
             super(view);
-            endTv =  view.findViewById(R.id.end_tv);
+            endTv = view.findViewById(R.id.end_tv);
         }
     }
 }
