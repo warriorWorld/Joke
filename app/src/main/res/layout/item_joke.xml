@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/joke_rl"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="15dp"
+    android:background="@drawable/rect_white_c5"
+    android:elevation="3dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/joke_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date_tv"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:includeFontPadding="false"
+        android:text="fdsjofdsi"
+        android:textColor="@color/main_text_color"
+        android:textSize="18sp"></TextView>
+
+    <TextView
+        android:id="@+id/date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:includeFontPadding="false"
+        android:text="2020-5-26 12:47:43"
+        android:textColor="@color/main_text_color_gray"
+        android:textSize="12sp"></TextView>
+</RelativeLayout>
