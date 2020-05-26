@@ -1,6 +1,7 @@
-package com.insightsurfface.joke.config;
+package com.insightsurfface.joke.okhttp;
 
 import com.insightsurfface.joke.bean.JokeBean;
+import com.insightsurfface.joke.config.Configures;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;

@@ -1,7 +1,7 @@
 package com.insightsurfface.joke.business.main;
 
 import com.insightsurfface.joke.bean.JokeBean;
-import com.insightsurfface.joke.config.HttpService;
+import com.insightsurfface.joke.okhttp.HttpService;
 import com.insightsurfface.joke.utils.RetrofitUtil;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;

@@ -30,6 +30,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initVM();
+        mJokeViewModel.getJokes(currentPage);
     }
 
     private void initVM() {
@@ -38,7 +39,7 @@ public class MainActivity extends BaseActivity {
         mJokeViewModel.getJoke().observe(this, new Observer<JokeBean>() {
             @Override
             public void onChanged(JokeBean bean) {
-                list.add(bean.getResult().getData().get(0));
+                list.addAll(bean.getResult().getData());
                 initRec();
             }
         });
