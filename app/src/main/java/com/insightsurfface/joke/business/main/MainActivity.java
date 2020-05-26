@@ -9,6 +9,8 @@ import com.insightsurfface.joke.R;
 import com.insightsurfface.joke.adapter.JokeAdapter;
 import com.insightsurfface.joke.base.BaseActivity;
 import com.insightsurfface.joke.bean.JokeBean;
+import com.insightsurfface.joke.config.Configures;
+import com.insightsurfface.joke.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,31 +89,26 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    int lastPos = manager.findLastVisibleItemPosition();
+                    if (!jokeSrl.isRefreshing()) {
+                        if (manager.getChildCount() > 0 && lastPos >= manager.getItemCount() - 1 && manager.getItemCount() > manager.getChildCount()) {
+                            currentPage++;
+                            if (currentPage > Configures.JOKE_PAGE_LIMIT) {
+                                currentPage = Configures.JOKE_PAGE_LIMIT;
+                                return;
+                            }
+                            mJokeViewModel.getJokes(currentPage);
+                        }
+                    }
+                }
             }
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                //得到当前显示的最后一个item的view
-                View lastChildView = recyclerView.getLayoutManager().getChildAt(recyclerView.getLayoutManager().getChildCount() - 1);
-                //得到lastChildView的bottom坐标值
-                int lastChildBottom = lastChildView.getBottom();
-                //得到Recyclerview的底部坐标减去底部padding值，也就是显示内容最底部的坐标
-                int recyclerBottom = recyclerView.getBottom() - recyclerView.getPaddingBottom();
-                //通过这个lastChildView得到这个view当前的position值
-                int lastPosition = recyclerView.getLayoutManager().getPosition(lastChildView);
 
-                //判断lastChildView的bottom值跟recyclerBottom
-                //判断lastPosition是不是最后一个position
-                //如果两个条件都满足则说明是真正的滑动到了底部
-                if (lastChildBottom == recyclerBottom && lastPosition == recyclerView.getLayoutManager().getItemCount() - 1) {
-                    baseToast.showToast("到底了");
-                    currentPage++;
-                    if (currentPage > 20) {
-                        return;
-                    }
-                    mJokeViewModel.getJokes(currentPage);
-                }
             }
         });
         LayoutAnimationController controller = new LayoutAnimationController(AnimationUtils.loadAnimation(this, R.anim.recycler_load));
@@ -136,6 +133,7 @@ public class MainActivity extends BaseActivity {
                 mAdapter.setList(list);
                 mAdapter.notifyDataSetChanged();
             }
+            mAdapter.setCurrentPage(currentPage);
         } catch (Exception e) {
             e.printStackTrace();
         }

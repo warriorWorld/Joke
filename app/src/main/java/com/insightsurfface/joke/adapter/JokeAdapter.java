@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.insightsurfface.joke.R;
 import com.insightsurfface.joke.bean.JokeBean;
+import com.insightsurfface.joke.config.Configures;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class JokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int TYPE_NORMAL = 0;
     private final int TYPE_END = 1;
     private List<JokeBean.ResultBean.DataBean> list;
+    private int currentPage = 0;
 
     public JokeAdapter(Context context) {
         this.context = context;
@@ -54,7 +56,7 @@ public class JokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemViewType(int position) {
         if (null == list || list.size() == 0) {
             return TYPE_END;
-        } else if (position == 400) {
+        } else if (currentPage == Configures.JOKE_PAGE_LIMIT && position == list.size()) {
             return TYPE_END;
         } else {
             return TYPE_NORMAL;
@@ -66,7 +68,7 @@ public class JokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemCount() {
         if (null == list || list.size() == 0) {
             return 1;
-        } else if (list.size() == 400) {
+        } else if (currentPage == Configures.JOKE_PAGE_LIMIT) {
             return list.size() + 1;
         } else {
             return list.size();
@@ -75,6 +77,10 @@ public class JokeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void setList(List<JokeBean.ResultBean.DataBean> list) {
         this.list = list;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
     }
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素
