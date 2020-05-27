@@ -1,5 +1,7 @@
 package com.insightsurfface.joke.business.main;
 
+import android.content.Context;
+
 import com.insightsurfface.joke.bean.JokeBean;
 
 import androidx.lifecycle.LiveData;
@@ -9,13 +11,15 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 
 public class JokeViewModel extends ViewModel {
+    private Context mContext;
     private IJokeModel mJokeModel;
     private CompositeDisposable mObserver = new CompositeDisposable();
     private MutableLiveData<JokeBean> mJoke = new MutableLiveData<>();
     private MutableLiveData<Boolean> isUpdating = new MutableLiveData<>();
     private MutableLiveData<String> message = new MutableLiveData<>();
 
-    void init() {
+    void init(Context context) {
+        mContext=context.getApplicationContext();
         mJokeModel = new JokeModel();
     }
 
@@ -40,7 +44,7 @@ public class JokeViewModel extends ViewModel {
         };
 
         mObserver.add(observer);
-        mJokeModel.getJokes(page, observer);
+        mJokeModel.getJokes(mContext,page, observer);
     }
 
     @Override

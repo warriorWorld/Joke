@@ -39,7 +39,7 @@ public class MainActivity extends BaseActivity {
 
     private void initVM() {
         mJokeViewModel = ViewModelProviders.of(this).get(JokeViewModel.class);
-        mJokeViewModel.init();
+        mJokeViewModel.init(this);
         mJokeViewModel.getJoke().observe(this, new Observer<JokeBean>() {
             @Override
             public void onChanged(JokeBean bean) {

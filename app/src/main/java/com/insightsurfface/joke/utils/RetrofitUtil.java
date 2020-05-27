@@ -1,8 +1,14 @@
 package com.insightsurfface.joke.utils;
 
 
+import android.content.Context;
+
+import com.insightsurfface.joke.config.Configures;
+import com.insightsurfface.joke.okhttp.interceptor.ForceCacheInterceptor;
+
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -19,12 +25,13 @@ public class RetrofitUtil {
     public static final int READ_TIME_OUT = 60;
     public static final int WRITE_TIME_OUT = 60;
 
-    public static Retrofit getInstance() {
+    public static Retrofit getInstance(Context context) {
 
         if (retrofit == null) {
             synchronized (RetrofitUtil.class) {
                 if (retrofit == null) {
                     OkHttpClient client = new OkHttpClient.Builder()
+                            .cache(new Cache(context.getApplicationContext().getCacheDir(), 1024 * 1024))
                             .connectTimeout(CONNECT_TIME_OUT, TimeUnit.SECONDS)
                             .readTimeout(READ_TIME_OUT, TimeUnit.SECONDS)
                             .writeTimeout(WRITE_TIME_OUT, TimeUnit.SECONDS)
@@ -40,7 +47,7 @@ public class RetrofitUtil {
                     // production
                     // https://store.sfbest.com
                     retrofit = new Retrofit.Builder()
-                            .baseUrl("http://v.juhe.cn")
+                            .baseUrl(Configures.JOKE_BASE_URL)
                             .client(client)
                             .addConverterFactory(GsonConverterFactory.create())
                             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
