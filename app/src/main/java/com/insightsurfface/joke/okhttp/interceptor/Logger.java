@@ -1,4 +1,4 @@
-package com.insightsurfface.joke.okhttp.intercepter;
+package com.insightsurfface.joke.okhttp.interceptor;
 
 
 import okhttp3.internal.platform.Platform;

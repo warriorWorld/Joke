@@ -12,7 +12,7 @@ public class JokeModel implements IJokeModel {
 
     @Override
     public void getJokes(int page, DisposableObserver<JokeBean> observer) {
-        RetrofitUtil.getJokeInstance()
+        RetrofitUtil.getInstance()
                 .create(HttpService.class)
                 .getJokes(page, 20)
                 .subscribeOn(Schedulers.io())

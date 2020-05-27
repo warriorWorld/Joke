@@ -19,7 +19,7 @@ public class RetrofitUtil {
     public static final int READ_TIME_OUT = 60;
     public static final int WRITE_TIME_OUT = 60;
 
-    public static Retrofit getJokeInstance() {
+    public static Retrofit getInstance() {
 
         if (retrofit == null) {
             synchronized (RetrofitUtil.class) {
