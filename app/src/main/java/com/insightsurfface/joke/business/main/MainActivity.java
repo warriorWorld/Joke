@@ -8,6 +8,7 @@ import com.insightsurfface.joke.R;
 import com.insightsurfface.joke.adapter.JokeAdapter;
 import com.insightsurfface.joke.base.BaseActivity;
 import com.insightsurfface.joke.bean.JokeBean;
+import com.insightsurfface.joke.bean.WeatherBean;
 import com.insightsurfface.joke.config.Configures;
 import com.insightsurfface.joke.widget.dialog.NormalDialogBuilder;
 
@@ -28,6 +29,7 @@ public class MainActivity extends BaseActivity {
     private JokeAdapter mAdapter;
     private List<JokeBean.ResultBean.DataBean> list = new ArrayList<>();
     private JokeViewModel mJokeViewModel;
+    private WeatherViewModel mWeatherViewModel;
     private int currentPage = 1;
 
     @Override
@@ -35,6 +37,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         initVM();
         mJokeViewModel.getJokes(currentPage);
+        mWeatherViewModel.getWeather("1");
     }
 
     private void initVM() {
@@ -74,6 +77,25 @@ public class MainActivity extends BaseActivity {
                 } else {
                     jokeSrl.setRefreshing(false);
                 }
+            }
+        });
+        mWeatherViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
+            @NonNull
+            @Override
+            @SuppressWarnings("unchecked")
+            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+                return (T) new WeatherViewModel(MainActivity.this);
+            }
+        }).get(WeatherViewModel.class);
+        mWeatherViewModel.getWeather().observe(this, new Observer<WeatherBean>() {
+            @Override
+            public void onChanged(WeatherBean bean) {
+                new NormalDialogBuilder(MainActivity.this)
+                        .setTitle("天气")
+                        .setMessage(bean.toString())
+                        .setOkText("确定")
+                        .create()
+                        .show();
             }
         });
     }

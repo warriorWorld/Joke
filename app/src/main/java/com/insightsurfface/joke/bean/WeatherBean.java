@@ -162,6 +162,7 @@ public class WeatherBean extends BaseBean {
             private String temperature;
             private String weather;
             private WidBean wid;
+            private WeatherExplainBean wExplain;
             private String direct;
 
             public String getDate() {
@@ -204,12 +205,41 @@ public class WeatherBean extends BaseBean {
                 this.direct = direct;
             }
 
+            public WeatherExplainBean getwExplain() {
+                return wExplain;
+            }
+
+            public void setwExplain(WeatherExplainBean wExplain) {
+                this.wExplain = wExplain;
+            }
+
             public static class WidBean {
                 /**
                  * day : 07
                  * night : 01
                  */
 
+                private String day;
+                private String night;
+
+                public String getDay() {
+                    return day;
+                }
+
+                public void setDay(String day) {
+                    this.day = day;
+                }
+
+                public String getNight() {
+                    return night;
+                }
+
+                public void setNight(String night) {
+                    this.night = night;
+                }
+            }
+
+            public static class WeatherExplainBean {
                 private String day;
                 private String night;
 
