@@ -1,9 +1,11 @@
 package com.insightsurfface.joke.okhttp.interceptor;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.insightsurfface.joke.cache.CacheCaretaker;
 import com.insightsurfface.joke.config.Configures;
+import com.insightsurfface.joke.utils.Logger;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,7 +27,12 @@ public class ForceCacheInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-
+        Logger.d("headers:" + request.headers().toString());
+        try {
+            Logger.d("request body:" + request.body().toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (request.url().toString().startsWith(Configures.JOKE_BASE_URL)) {
             HashMap<String, String> cacheMap = CacheCaretaker.getContent(mContext);
             if (null == cacheMap) {

@@ -9,6 +9,7 @@ import com.insightsurfface.joke.adapter.JokeAdapter;
 import com.insightsurfface.joke.base.BaseActivity;
 import com.insightsurfface.joke.bean.JokeBean;
 import com.insightsurfface.joke.config.Configures;
+import com.insightsurfface.joke.widget.dialog.NormalDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,12 @@ public class MainActivity extends BaseActivity {
         mJokeViewModel.getMessage().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                baseToast.showToast(s);
+                new NormalDialogBuilder(MainActivity.this)
+                        .setTitle("注意了:")
+                        .setMessage(s)
+                        .setOkText("确定")
+                        .create()
+                        .show();
             }
         });
         mJokeViewModel.getIsUpdating().observe(this, new Observer<Boolean>() {
