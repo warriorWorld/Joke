@@ -35,7 +35,7 @@ public interface HttpService {
 //    Observable<CityBean> getSupportCities(@Field("key") String key);
 
     @Headers({"Content-Type: application/json;charset=utf-8", "Accept: application/json"})
-    @GET("http://apis.juhe.cn/simpleWeather/wids")
+    @GET(Configures.GET_WEATHER_TYPE_URL)
     Observable<WeatherTypeBean> getWeatherTypes(@Query("key") String key);
 
     @Headers({"Content-Type: application/json;charset=utf-8", "Accept: application/json"})
@@ -43,6 +43,6 @@ public interface HttpService {
     Observable<WeatherBean> getWeather(@Query("city") String city, @Query("key") String key);
 
     @Headers({"Content-Type: application/json;charset=utf-8", "Accept: application/json"})
-    @GET("http://apis.juhe.cn/simpleWeather/cityList")
+    @GET(Configures.GET_CITY_LIST_URL)
     Observable<CityBean> getSupportCities(@Query("key") String key);
 }

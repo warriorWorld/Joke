@@ -22,7 +22,11 @@ import retrofit2.http.Body;
 
 public class ForceCacheInterceptor implements Interceptor {
     private Context mContext;
-    private final String[] SUPPORT_CACHE_URLS = {Configures.JOKE_BASE_URL};
+    private final String[] SUPPORT_CACHE_URLS = {
+            Configures.JOKE_BASE_URL,
+            Configures.GET_WEATHER_TYPE_URL,
+            Configures.GET_CITY_LIST_URL,
+    };
 
     public ForceCacheInterceptor(Context context) {
         mContext = context.getApplicationContext();
