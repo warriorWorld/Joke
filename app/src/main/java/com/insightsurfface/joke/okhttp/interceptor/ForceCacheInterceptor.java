@@ -25,30 +25,35 @@ public class ForceCacheInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        HashMap<String, String> cacheMap = CacheCaretaker.getContent(mContext);
-        if (null == cacheMap) {
-            cacheMap = new HashMap<>();
-        }
-        if (request.url().toString().contains(Configures.JOKE_BASE_URL) && cacheMap.containsKey(request.url().toString())) {
-            return new Response.Builder()
-                    .request(request)
-                    .protocol(Protocol.get(Protocol.HTTP_1_0.toString()))
-                    .message("success")
-                    .code(200)
-                    .body(ResponseBody.create(MediaType.get("application/json"), cacheMap.get(request.url().toString())))
-                    .build();
-        } else {
-            Response response = chain.proceed(request);
-            if (response.isSuccessful()) {
-                //string方法只能调用一次 在调用了response.body().string()方法之后，response中的流会被关闭，我们需要创建出一个新的response给应用层处理。
-                String content = response.body().string();
-                cacheMap.put(request.url().toString(), content);
-                CacheCaretaker.saveContent(mContext, cacheMap);
-                return response.newBuilder()
-                        .body(ResponseBody.create(response.body().contentType(), content))
-                        .build();
+
+        if (request.url().toString().startsWith(Configures.JOKE_BASE_URL)) {
+            HashMap<String, String> cacheMap = CacheCaretaker.getContent(mContext);
+            if (null == cacheMap) {
+                cacheMap = new HashMap<>();
             }
-            return response;
+            if (cacheMap.containsKey(request.url().toString())) {
+                return new Response.Builder()
+                        .request(request)
+                        .protocol(Protocol.get(Protocol.HTTP_1_0.toString()))
+                        .message("success")
+                        .code(200)
+                        .body(ResponseBody.create(MediaType.get("application/json"), cacheMap.get(request.url().toString())))
+                        .build();
+            } else {
+                Response response = chain.proceed(request);
+                if (response.isSuccessful()) {
+                    //string方法只能调用一次 在调用了response.body().string()方法之后，response中的流会被关闭，我们需要创建出一个新的response给应用层处理。
+                    String content = response.body().string();
+                    cacheMap.put(request.url().toString(), content);
+                    CacheCaretaker.saveContent(mContext, cacheMap);
+                    return response.newBuilder()
+                            .body(ResponseBody.create(response.body().contentType(), content))
+                            .build();
+                }
+                return response;
+            }
+        } else {
+            return chain.proceed(request);
         }
     }
 }
