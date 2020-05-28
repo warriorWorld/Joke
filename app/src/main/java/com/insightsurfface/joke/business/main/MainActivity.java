@@ -38,6 +38,7 @@ public class MainActivity extends BaseActivity {
         initVM();
         mJokeViewModel.getJokes(currentPage);
         mWeatherViewModel.getWeather("1");
+//        mWeatherViewModel.getSupportCities();
     }
 
     private void initVM() {
