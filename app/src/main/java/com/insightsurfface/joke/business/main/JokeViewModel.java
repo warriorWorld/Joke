@@ -18,8 +18,8 @@ public class JokeViewModel extends ViewModel {
     private MutableLiveData<Boolean> isUpdating = new MutableLiveData<>();
     private MutableLiveData<String> message = new MutableLiveData<>();
 
-    void init(Context context) {
-        mContext=context.getApplicationContext();
+    public JokeViewModel(Context context) {
+        mContext = context.getApplicationContext();
         mJokeModel = new JokeModel();
     }
 
@@ -44,7 +44,7 @@ public class JokeViewModel extends ViewModel {
         };
 
         mObserver.add(observer);
-        mJokeModel.getJokes(mContext,page, observer);
+        mJokeModel.getJokes(mContext, page, observer);
     }
 
     @Override

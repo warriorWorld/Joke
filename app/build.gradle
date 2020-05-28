@@ -34,7 +34,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'org.greenrobot:eventbus:3.0.0'
     //mvvm
-    implementation "android.arch.lifecycle:extensions:1.1.1"
+//    implementation "android.arch.lifecycle:extensions:1.1.1"
     //RXJAVA
     implementation 'io.reactivex.rxjava2:rxjava:2.2.12'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'

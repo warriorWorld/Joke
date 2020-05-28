@@ -1,7 +1,6 @@
 package com.insightsurfface.joke.business.main;
 
 import android.os.Bundle;
-import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
@@ -10,14 +9,14 @@ import com.insightsurfface.joke.adapter.JokeAdapter;
 import com.insightsurfface.joke.base.BaseActivity;
 import com.insightsurfface.joke.bean.JokeBean;
 import com.insightsurfface.joke.config.Configures;
-import com.insightsurfface.joke.utils.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -38,8 +37,16 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initVM() {
-        mJokeViewModel = ViewModelProviders.of(this).get(JokeViewModel.class);
-        mJokeViewModel.init(this);
+//        mJokeViewModel = ViewModelProviders.of(this).get(JokeViewModel.class);
+        mJokeViewModel = new ViewModelProvider(this, new ViewModelProvider.Factory() {
+            @NonNull
+            @Override
+            @SuppressWarnings("unchecked")
+            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+                return (T) new JokeViewModel(MainActivity.this);
+            }
+        }).get(JokeViewModel.class);
+
         mJokeViewModel.getJoke().observe(this, new Observer<JokeBean>() {
             @Override
             public void onChanged(JokeBean bean) {

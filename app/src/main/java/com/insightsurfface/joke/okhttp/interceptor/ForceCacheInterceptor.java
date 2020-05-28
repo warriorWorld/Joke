@@ -13,11 +13,15 @@ public class ForceCacheInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-
+        Response response = chain.proceed(request);
         if (request.url().toString().contains(Configures.JOKE_BASE_URL)) {
-            String cache = request.header("Cache-Time");
-            Logger.d(cache);
+            return response.newBuilder()
+                    .removeHeader("Pragma")
+                    .removeHeader("Cache-Control")
+                    //cache for cache seconds
+                    .header("Cache-Control", "max-age=" + 3600 * 2)
+                    .build();
         }
-        return null;
+        return response;
     }
 }

@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.insightsurfface.joke.config.Configures;
 import com.insightsurfface.joke.okhttp.interceptor.ForceCacheInterceptor;
+import com.insightsurfface.joke.okhttp.interceptor.Level;
+import com.insightsurfface.joke.okhttp.interceptor.LoggingInterceptor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,6 +15,8 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static okhttp3.internal.platform.Platform.INFO;
 
 /**
  * Created by liu on 2017/6/22.
@@ -31,6 +35,14 @@ public class RetrofitUtil {
             synchronized (RetrofitUtil.class) {
                 if (retrofit == null) {
                     OkHttpClient client = new OkHttpClient.Builder()
+                            .addInterceptor(new LoggingInterceptor.Builder()
+                                    .loggable(true)//true拦截日志
+                                    .setLevel(Level.BODY)//打印内容配置 Level.NONE不打印
+                                    .log(INFO)//log级别
+                                    .request("HttpLog_Request")
+                                    .response("HttpLog_Response")
+                                    .build())
+                            .addInterceptor(new ForceCacheInterceptor())
                             .cache(new Cache(context.getApplicationContext().getCacheDir(), 1024 * 1024))
                             .connectTimeout(CONNECT_TIME_OUT, TimeUnit.SECONDS)
                             .readTimeout(READ_TIME_OUT, TimeUnit.SECONDS)
