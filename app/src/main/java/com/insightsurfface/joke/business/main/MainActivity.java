@@ -7,6 +7,7 @@ import android.view.animation.LayoutAnimationController;
 import com.insightsurfface.joke.R;
 import com.insightsurfface.joke.adapter.JokeAdapter;
 import com.insightsurfface.joke.base.BaseActivity;
+import com.insightsurfface.joke.bean.CityBean;
 import com.insightsurfface.joke.bean.JokeBean;
 import com.insightsurfface.joke.bean.WeatherBean;
 import com.insightsurfface.joke.config.Configures;
@@ -37,8 +38,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         initVM();
         mJokeViewModel.getJokes(currentPage);
-        mWeatherViewModel.getWeather("1");
-//        mWeatherViewModel.getSupportCities();
+//        mWeatherViewModel.getWeather("1");
+        mWeatherViewModel.getSupportCities();
     }
 
     private void initVM() {
@@ -95,6 +96,16 @@ public class MainActivity extends BaseActivity {
                         .setTitle("天气")
                         .setMessage(bean.toString())
                         .setOkText("确定")
+                        .create()
+                        .show();
+            }
+        });
+        mWeatherViewModel.getCity().observe(this, new Observer<CityBean>() {
+            @Override
+            public void onChanged(CityBean bean) {
+                new NormalDialogBuilder(MainActivity.this)
+                        .setTitle("城市")
+                        .setMessage(bean.getResult().toString())
                         .create()
                         .show();
             }

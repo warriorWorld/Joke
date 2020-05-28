@@ -40,16 +40,6 @@ public class WeatherModel implements IWeatherModel {
     }
 
     @Override
-    public void getWeatherTypes(DisposableObserver<WeatherTypeBean> observer) {
-        RetrofitUtil.getInstance(mContext)
-                .create(HttpService.class)
-                .getWeatherTypes(Configures.WEATHER_KEY)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
-    }
-
-    @Override
     public void getWeather(String city, DisposableObserver<WeatherBean> observer) {
         RetrofitUtil.getInstance(mContext)
                 .create(HttpService.class)
@@ -81,8 +71,8 @@ public class WeatherModel implements IWeatherModel {
                                                     explainBean.setDay(getWeatherByWid(item.getDay(), weatherTypeBean));
                                                     explainBean.setNight(getWeatherByWid(item.getNight(), weatherTypeBean));
                                                     bean.getResult().getFuture().get(i).setwExplain(explainBean);
-                                                    emitter.onNext(bean);
                                                 }
+                                                emitter.onNext(bean);
                                             }
 
                                             @Override

@@ -10,8 +10,5 @@ public interface IWeatherModel {
     //可缓存
     void getSupportCities(DisposableObserver<CityBean> observer);
 
-    //可缓存
-    void getWeatherTypes(DisposableObserver<WeatherTypeBean> observer);
-
-    void getWeather(String city,DisposableObserver<WeatherBean> observer);
+    void getWeather(String city, DisposableObserver<WeatherBean> observer);
 }

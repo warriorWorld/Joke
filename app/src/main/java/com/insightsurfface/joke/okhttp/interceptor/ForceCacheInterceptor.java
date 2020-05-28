@@ -2,7 +2,6 @@ package com.insightsurfface.joke.okhttp.interceptor;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.insightsurfface.joke.cache.CacheCaretaker;
 import com.insightsurfface.joke.config.Configures;
@@ -18,7 +17,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import retrofit2.http.Body;
 
 public class ForceCacheInterceptor implements Interceptor {
     private Context mContext;
