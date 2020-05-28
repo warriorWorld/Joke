@@ -10,6 +10,7 @@ import com.insightsurfface.joke.utils.Logger;
 import java.io.IOException;
 import java.util.HashMap;
 
+import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Protocol;
@@ -57,7 +58,7 @@ public class ForceCacheInterceptor implements Interceptor {
                 if (response.isSuccessful()) {
                     //string方法只能调用一次 在调用了response.body().string()方法之后，response中的流会被关闭，我们需要创建出一个新的response给应用层处理。
                     String content = response.body().string();
-                    cacheMap.put(request.url().toString(), content);
+                    cacheMap.put(getKey(request), content);
                     CacheCaretaker.saveContent(mContext, cacheMap);
                     return response.newBuilder()
                             .body(ResponseBody.create(response.body().contentType(), content))
@@ -82,13 +83,11 @@ public class ForceCacheInterceptor implements Interceptor {
 
     private String getKey(Request request) {
         String url = request.url().toString();
-        String bodyS = null;
-        RequestBody body = request.body();
-        if (null != body) {
-            bodyS = body.toString();
-        }
-        if (!TextUtils.isEmpty(bodyS)) {
-            return url + bodyS;
+        Headers headers = request.headers();
+        String stringHeader = null;
+        stringHeader = headers.toString();
+        if (!TextUtils.isEmpty(stringHeader)) {
+            return url + stringHeader;
         } else {
             return url;
         }

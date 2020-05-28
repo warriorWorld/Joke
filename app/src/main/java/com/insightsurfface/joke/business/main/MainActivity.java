@@ -38,8 +38,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         initVM();
         mJokeViewModel.getJokes(currentPage);
-//        mWeatherViewModel.getWeather("1");
-        mWeatherViewModel.getSupportCities();
+        mWeatherViewModel.getWeather("1");
+//        mWeatherViewModel.getSupportCities();
     }
 
     private void initVM() {
@@ -94,7 +94,7 @@ public class MainActivity extends BaseActivity {
             public void onChanged(WeatherBean bean) {
                 new NormalDialogBuilder(MainActivity.this)
                         .setTitle("天气")
-                        .setMessage(bean.toString())
+                        .setMessage(bean.getResult().getRealtime().getInfo())
                         .setOkText("确定")
                         .create()
                         .show();
