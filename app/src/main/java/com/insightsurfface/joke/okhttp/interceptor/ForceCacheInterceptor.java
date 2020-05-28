@@ -1,6 +1,7 @@
 package com.insightsurfface.joke.okhttp.interceptor;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.insightsurfface.joke.cache.CacheCaretaker;
@@ -14,11 +15,14 @@ import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Protocol;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import retrofit2.http.Body;
 
 public class ForceCacheInterceptor implements Interceptor {
     private Context mContext;
+    private final String[] SUPPORT_CACHE_URLS = {Configures.JOKE_BASE_URL};
 
     public ForceCacheInterceptor(Context context) {
         mContext = context.getApplicationContext();
@@ -33,18 +37,18 @@ public class ForceCacheInterceptor implements Interceptor {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (request.url().toString().startsWith(Configures.JOKE_BASE_URL)) {
+        if (isSupportCache(request)) {
             HashMap<String, String> cacheMap = CacheCaretaker.getContent(mContext);
             if (null == cacheMap) {
                 cacheMap = new HashMap<>();
             }
-            if (cacheMap.containsKey(request.url().toString())) {
+            if (cacheMap.containsKey(getKey(request))) {
                 return new Response.Builder()
                         .request(request)
                         .protocol(Protocol.get(Protocol.HTTP_1_0.toString()))
                         .message("success")
                         .code(200)
-                        .body(ResponseBody.create(MediaType.get("application/json"), cacheMap.get(request.url().toString())))
+                        .body(ResponseBody.create(MediaType.get("application/json"), cacheMap.get(getKey(request))))
                         .build();
             } else {
                 Response response = chain.proceed(request);
@@ -61,6 +65,30 @@ public class ForceCacheInterceptor implements Interceptor {
             }
         } else {
             return chain.proceed(request);
+        }
+    }
+
+    private boolean isSupportCache(Request request) {
+        String url = request.url().toString();
+        for (String item : SUPPORT_CACHE_URLS) {
+            if (url.startsWith(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private String getKey(Request request) {
+        String url = request.url().toString();
+        String bodyS = null;
+        RequestBody body = request.body();
+        if (null != body) {
+            bodyS = body.toString();
+        }
+        if (!TextUtils.isEmpty(bodyS)) {
+            return url + bodyS;
+        } else {
+            return url;
         }
     }
 }
