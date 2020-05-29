@@ -1,23 +1,20 @@
 package com.insightsurfface.joke.cache;
 
-import android.content.Context;
-
-import com.insightsurfface.joke.utils.ShareObjUtil;
-
-import java.util.HashMap;
+import com.insightsurfface.joke.utils.Logger;
+import com.tencent.mmkv.MMKV;
 
 public class CacheCaretaker {
-    private final static String KEY = "cache";
 
-    public static void saveContent(Context context, HashMap<String, String> content) {
-        ShareObjUtil.saveObject(context, content, KEY);
+    public static void saveContent(String key, String content) {
+        boolean b = MMKV.defaultMMKV().encode(key, content);
+        Logger.d("MMKV isSuccess: " + b);
     }
 
-    public static HashMap<String, String> getContent(Context context) {
-        return (HashMap<String, String>) ShareObjUtil.getObject(context, KEY);
+    public static String getContent(String key) {
+        return MMKV.defaultMMKV().decodeString(key);
     }
 
-    public static void clean(Context context) {
-        ShareObjUtil.deleteFile(context, KEY);
+    public static void clean() {
+        MMKV.defaultMMKV().clearAll();
     }
 }

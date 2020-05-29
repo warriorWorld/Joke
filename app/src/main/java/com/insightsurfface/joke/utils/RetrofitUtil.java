@@ -42,7 +42,7 @@ public class RetrofitUtil {
                                     .request("HttpLog_Request")
                                     .response("HttpLog_Response")
                                     .build())
-                            .addInterceptor(new ForceCacheInterceptor(context.getApplicationContext()))
+                            .addInterceptor(new ForceCacheInterceptor())
                             .connectTimeout(CONNECT_TIME_OUT, TimeUnit.SECONDS)
                             .readTimeout(READ_TIME_OUT, TimeUnit.SECONDS)
                             .writeTimeout(WRITE_TIME_OUT, TimeUnit.SECONDS)
