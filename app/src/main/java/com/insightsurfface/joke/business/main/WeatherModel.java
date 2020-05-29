@@ -2,7 +2,6 @@ package com.insightsurfface.joke.business.main;
 
 import android.content.Context;
 
-import com.insightsurfface.joke.base.BaseBean;
 import com.insightsurfface.joke.bean.CityBean;
 import com.insightsurfface.joke.bean.WeatherBean;
 import com.insightsurfface.joke.bean.WeatherTypeBean;
@@ -10,17 +9,9 @@ import com.insightsurfface.joke.config.Configures;
 import com.insightsurfface.joke.okhttp.HttpService;
 import com.insightsurfface.joke.utils.RetrofitUtil;
 
-import java.util.List;
-
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
-import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 

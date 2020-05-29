@@ -38,7 +38,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         initVM();
         mJokeViewModel.getJokes(currentPage);
-        mWeatherViewModel.getWeather("1");
+//        mWeatherViewModel.getWeather("1");
 //        mWeatherViewModel.getSupportCities();
     }
 
