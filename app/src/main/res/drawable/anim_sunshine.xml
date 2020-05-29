@@ -3,8 +3,8 @@
 
     <item
         android:drawable="@drawable/ic_sunshine"
-        android:duration="50" />
+        android:duration="800" />
     <item
         android:drawable="@drawable/ic_sunshine1"
-        android:duration="50" />
+        android:duration="800" />
 </animation-list>

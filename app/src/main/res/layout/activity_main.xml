@@ -6,6 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".business.main.MainActivity">
 
+    <RelativeLayout
+        android:id="@+id/main_bar_rl"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/app_name"
+            android:textColor="@color/main_text_color"
+            android:textSize="20sp"
+            android:textStyle="bold"></TextView>
+
+        <ImageView
+            android:id="@+id/qr_iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_qrcode"></ImageView>
+    </RelativeLayout>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/joke_srl"
         android:layout_width="0dp"
@@ -13,7 +41,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/main_bar_rl">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/joke_rcv"
@@ -22,9 +50,11 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ImageView
+        android:id="@+id/weather_iv"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/anim_sunshine"
+        android:background="@drawable/anim_sunshine"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

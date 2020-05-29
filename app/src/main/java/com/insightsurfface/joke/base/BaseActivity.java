@@ -16,6 +16,7 @@ import com.insightsurfface.joke.widget.bar.TopBar;
 import com.insightsurfface.joke.widget.toast.EasyToast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import io.reactivex.disposables.CompositeDisposable;
 
 
 /**
@@ -25,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public abstract class BaseActivity extends AppCompatActivity {
     protected TopBar baseTopBar;
     protected EasyToast baseToast;
+    protected CompositeDisposable mObserver = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,5 +128,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         ActivityPoor.finishSingleActivity(this);
+        mObserver.dispose();
     }
 }
