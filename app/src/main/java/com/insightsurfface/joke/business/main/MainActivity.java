@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.insightsurfface.joke.R;
 import com.insightsurfface.joke.adapter.JokeAdapter;
@@ -46,7 +47,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private SwipeRefreshLayout jokeSrl;
     private RecyclerView jokeRcv;
     private ImageView weatherIv;
-    private RelativeLayout mainBarRl;
+    private TextView weatherTv;
     private JokeAdapter mAdapter;
     private List<JokeBean.ResultBean.DataBean> list = new ArrayList<>();
     private JokeViewModel mJokeViewModel;
@@ -59,9 +60,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         initVM();
         mJokeViewModel.getJokes(currentPage);
-//        startAnim();
         mWeatherViewModel.getWeather("1");
-//        mWeatherViewModel.getSupportCities();
     }
 
     private void refreshWeatherUI(WeatherBean.ResultBean.RealtimeBean item) {
@@ -113,10 +112,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         assert spinner != null;
         spinner.start();
-        startAnim();
+        startAnim(item.getInfo());
     }
 
-    private void startAnim() {
+    private void startAnim(String weahter) {
         DisposableObserver observer = new DisposableObserver<Float[]>() {
             @Override
             public void onNext(Float[] bean) {
@@ -135,6 +134,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         spinner.stop();
+                        weatherTv.setText(weahter);
                     }
 
                     @Override
@@ -267,7 +267,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void initUI() {
         super.initUI();
         weatherIv = findViewById(R.id.weather_iv);
-        mainBarRl = findViewById(R.id.main_bar_rl);
+        weatherTv = findViewById(R.id.weather_tv);
         jokeSrl = (SwipeRefreshLayout) findViewById(R.id.joke_srl);
         jokeSrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
